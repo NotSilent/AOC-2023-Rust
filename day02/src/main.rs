@@ -80,13 +80,11 @@ fn parse_input(input: &str) -> Vec<Game> {
     input.lines().map(|line| {
         let mut game_rounds= vec![];
         let mut split = line.split(':');
-        if let Some(game) = split.next() {
+        if let Some(_game) = split.next() {
             if let Some(rounds) = split.next() {
-                let mut rounds = rounds.split(';');
-                while let Some(round) = rounds.next() {
+                for round in rounds.split(';') {
                     let mut game_round = GameRound::new(0, 0, 0);
-                    let mut outer_elem = round.split(',');
-                    while let Some(inner_elem) = outer_elem.next() {
+                    for inner_elem in round.split(',') {
                         let mut elem = inner_elem.trim().split(' ');
                         if let Some(count) = elem.next() {
                             if let Some(colour) = elem.next() {
@@ -126,9 +124,10 @@ fn main() {
     let input = include_str!("puzzle_input.txt");
     let games = parse_input(input);
 
-    let value = sum_of_powers(&games);
+    let ids = sum_of_ids(&Bag::new(12, 13, 14), &games);
+    let powers = sum_of_powers(&games);
 
-    println!("{value}");
+    println!("Puzzle 0: {ids}\nPuzzle 1: {powers}");
 }
 
 
@@ -193,5 +192,24 @@ mod tests {
         let value = sum_of_ids(&bag, &example_0);
 
         assert_eq!(value, 8);
+    }
+
+    #[test]
+    fn puzzle_0() {
+        let input = include_str!("puzzle_input.txt");
+        let games = parse_input(input);
+
+        let value = sum_of_ids(&Bag::new(12, 13, 14), &games);
+
+        assert_eq!(value, 2512);
+    }
+    #[test]
+    fn puzzle_1() {
+        let input = include_str!("puzzle_input.txt");
+        let games = parse_input(input);
+
+        let value = sum_of_powers(&games);
+
+        assert_eq!(value, 67335);
     }
 }

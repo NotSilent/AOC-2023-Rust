@@ -1,17 +1,16 @@
 fn main() {
     let file = include_str!("puzzle_input.txt");
-    let result = get_text_calibration_value(&file);
+    let result = get_text_calibration_value(file);
 
     println!("{result}");
 }
 
 fn get_text_calibration_value(text: &str) -> u32 {
     let lines = text.lines();
-    let result = lines
-        .map(|line| find_number(line))
-        .fold(0, |sum, value: u32| sum + value);
 
-    result
+    lines
+        .map(find_number)
+        .sum()
 }
 
 fn find_number(line: &str) -> u32 {
@@ -43,7 +42,7 @@ fn find_number(line: &str) -> u32 {
                 }
             }
 
-            return result
+            result
         });
 
     let last_real_digit = line.chars().rev().enumerate().find(|c| c.1.is_numeric());
@@ -62,7 +61,7 @@ fn find_number(line: &str) -> u32 {
                 }
             }
 
-            return result;
+            result
         });
 
     first_digit.1 * 10 + last_digit.1
