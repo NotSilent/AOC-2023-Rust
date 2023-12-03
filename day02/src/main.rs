@@ -203,6 +203,7 @@ mod tests {
 
         assert_eq!(value, 2512);
     }
+
     #[test]
     fn puzzle_1() {
         let input = include_str!("puzzle_input.txt");
